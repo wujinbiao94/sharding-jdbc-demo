@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.commn.GenerateID;
 import com.example.demo.entity.UserInfo;
 import com.example.demo.mapper.UserInfoMapper;
 import groovy.util.logging.Slf4j;
@@ -19,9 +20,14 @@ public class DemoService {
 
     public static Long userId = 150L;
 
-    public void demo() {
-        System.out.println("Insert--------------");
 
+
+    public void demo() {
+        if (GenerateID.maxId == 0){
+            GenerateID.queryId(10);
+        }
+        userId = GenerateID.minId;
+        System.out.println("Insert--------------");
         for (int i = 1; i <= 10; i++) {
             UserInfo userInfo = new UserInfo();
             userInfo.setUserId(userId);
@@ -29,20 +35,20 @@ public class DemoService {
             userInfo.setPassword("pass" + i);
             userInfo.setUserName("name" + i);
             userId++;
-            if(i==3){
-                HintManagerHolder.clear();
-                HintManager hintManager = HintManager.getInstance();
-                hintManager.addDatabaseShardingValue("user_info", "user_id", 3L);
-                hintManager.addTableShardingValue("user_info", "user_id", 3L);
-                System.out.println(userId);
-            }
             userInfoMapper.insert(userInfo);
-//
-
-//
-
-
+            if (userId.equals(GenerateID.maxId)){
+                GenerateID.queryId(10);
+                userId = GenerateID.minId;
+            }
         }
         System.out.println("over..........");
+    }
+
+
+    private void getUserId(){
+        HintManagerHolder.clear();
+        HintManager hintManager = HintManager.getInstance();
+        hintManager.addDatabaseShardingValue("user_info", "user_id", 3L);
+        hintManager.addTableShardingValue("user_info", "user_id", 3L);
     }
 }

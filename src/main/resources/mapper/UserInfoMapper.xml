@@ -110,4 +110,6 @@
       password = #{password,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
+
+
 </mapper>
