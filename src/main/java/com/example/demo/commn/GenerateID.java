@@ -43,7 +43,7 @@ public class GenerateID {
                 // 通过字段检索
                 Long id  = rs.getLong("nextId");
                 // 输出数据
-                System.out.print("但前Id: " + id);
+                System.out.println("当但前Id: " + id);
                 minId = id+1;
                 maxId = id + num;
                 //只取最新的数据
