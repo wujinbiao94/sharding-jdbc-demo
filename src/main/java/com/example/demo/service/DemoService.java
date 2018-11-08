@@ -2,8 +2,8 @@ package com.example.demo.service;
 
 
 import com.example.demo.commn.GenerateID;
-import com.example.demo.entity.UserInfo;
-import com.example.demo.mapper.UserInfoMapper;
+import com.example.demo.entity.OrderInfo;
+import com.example.demo.mapper.OrderInfoMapper;
 import groovy.util.logging.Slf4j;
 import io.shardingjdbc.core.api.HintManager;
 import io.shardingjdbc.core.hint.HintManagerHolder;
@@ -16,9 +16,9 @@ import javax.annotation.Resource;
 public class DemoService {
 
     @Resource
-    UserInfoMapper userInfoMapper;
+    OrderInfoMapper orderInfoMapper;
 
-    public static Long userId = 150L;
+    public static Long orderId = 150L;
 
 
 
@@ -26,20 +26,20 @@ public class DemoService {
         if (GenerateID.maxId == 0){
             GenerateID.queryId(10);
         }
-        userId = GenerateID.minId;
+        orderId = GenerateID.minId;
         System.out.println("Insert--------------");
         for (int i = 1; i <= 10; i++) {
-            UserInfo userInfo = new UserInfo();
-            userInfo.setUserId(userId);
-            userInfo.setAccount("Account" + i);
-            userInfo.setPassword("pass" + i);
-            userInfo.setUserName("name" + i);
-            userId++;
-            userInfoMapper.insert(userInfo);
-            if (userId.equals(GenerateID.maxId)){
+            OrderInfo orderInfo = new OrderInfo();
+            orderInfo.setOrderId(orderId);
+            orderInfo.setAccount("Account" + i);
+            orderInfo.setPassword("pass" + i);
+            orderInfo.setUserName("name" + i);
+            orderInfoMapper.insert(orderInfo);
+            if (orderId.equals(GenerateID.maxId)){
                 GenerateID.queryId(10);
-                userId = GenerateID.minId;
+                orderId = GenerateID.minId;
             }
+            orderId++;
         }
         System.out.println("over..........");
     }

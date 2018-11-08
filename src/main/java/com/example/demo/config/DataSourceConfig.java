@@ -32,18 +32,18 @@ public class DataSourceConfig {
         ShardingRuleConfiguration shardingRuleConfig;
         shardingRuleConfig = new ShardingRuleConfiguration();
         shardingRuleConfig.getTableRuleConfigs().add(getUserTableRuleConfiguration());
-        shardingRuleConfig.getBindingTableGroups().add("user_info");
-        shardingRuleConfig.setDefaultDatabaseShardingStrategyConfig(new StandardShardingStrategyConfiguration("user_id", DemoDatabaseShardingAlgorithm.class.getName()));
-        shardingRuleConfig.setDefaultTableShardingStrategyConfig(new StandardShardingStrategyConfiguration("user_id", DemoTableShardingAlgorithm.class.getName()));
+        shardingRuleConfig.getBindingTableGroups().add("order_info");
+        shardingRuleConfig.setDefaultDatabaseShardingStrategyConfig(new StandardShardingStrategyConfiguration("order_id", DemoDatabaseShardingAlgorithm.class.getName()));
+        shardingRuleConfig.setDefaultTableShardingStrategyConfig(new StandardShardingStrategyConfiguration("order_id", DemoTableShardingAlgorithm.class.getName()));
         return new ShardingDataSource(shardingRuleConfig.build(createDataSourceMap()));
     }
 
     @Bean
     TableRuleConfiguration getUserTableRuleConfiguration() {
         TableRuleConfiguration orderTableRuleConfig = new TableRuleConfiguration();
-        orderTableRuleConfig.setLogicTable("user_info");
-        orderTableRuleConfig.setActualDataNodes("user_${0..1}.user_info_${0..1}");
-        orderTableRuleConfig.setKeyGeneratorColumnName("user_id");
+        orderTableRuleConfig.setLogicTable("order_info");
+        orderTableRuleConfig.setActualDataNodes("order_${0..1}.order_info_${0..1}");
+        orderTableRuleConfig.setKeyGeneratorColumnName("order_id");
         return orderTableRuleConfig;
     }
 
@@ -76,8 +76,8 @@ public class DataSourceConfig {
 
     private Map<String, DataSource> createDataSourceMap() {
         Map<String, DataSource> result = new HashMap<>();
-        result.put("user_0", createDataSource("user_0"));
-        result.put("user_1", createDataSource("user_1"));
+        result.put("order_0", createDataSource("order_0"));
+        result.put("order_1", createDataSource("order_1"));
         return result;
     }
 
